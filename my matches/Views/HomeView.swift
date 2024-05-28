@@ -8,72 +8,91 @@
 import SwiftUI
 
 struct HomeView: View {
+    let users = ["1","5"]
     var body: some View {
-        VStack{
-            
-            ZStack{
+        NavigationStack{
+            VStack{
                 
-                VStack{
-                    
-                }
-                .frame(width: 200,height: 200,alignment: .center)
-                .background(Color(.systemPink))
-                .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-                .blur(radius: 180)
-                .offset(x:200,y:-100)
-                
-                ScrollView(showsIndicators: false){
+                ZStack{
                     
                     VStack{
                         
+                    }
+                    .frame(width: 200,height: 200,alignment: .center)
+                    .background(Color(.systemPink))
+                    .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+                    .blur(radius: 180)
+                    .offset(x:200,y:-100)
+                    
+                    VStack{
                         HStack{
                             Image(systemName: "slider.horizontal.3")
                                 .resizable()
                                 .frame(width: 25,height: 20)
+                                .foregroundStyle(.white)
                             Spacer()
-                            Text("My Matches").font(.title3).fontWeight(.medium)
+                            Text("My Matches")
+                                .font(.title3)
+                                .fontWeight(.medium)
+                                .foregroundStyle(.white)
+                            
                             Spacer()
                             Image("1")
                                 .resizable()
                                 .scaledToFill()
                                 .frame(width: 50,height: 50)
                                 .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-                        }.padding()
-                        
-                        ScrollView(.horizontal, showsIndicators: false){
-                            LazyHStack{
-                                StoryItemView()
-                                StoryItemView()
-                                StoryItemView()
-                                StoryItemView()
-                                StoryItemView()
-                                StoryItemView()
-                                StoryItemView()
-                            }
                         }
-    
-                        LazyVGrid(columns: [
-                            GridItem(.flexible()),
-                            GridItem(.flexible())
-                        ]){
-                            ExtractedView()
-                            ExtractedView()
-                            ExtractedView()
-                            ExtractedView()
-                            ExtractedView()
-                            ExtractedView()
-                            ExtractedView()
+                        .padding(.vertical)
+                        .padding(.horizontal,5)
+                        ScrollView(showsIndicators: false){
+                            
+                            VStack(alignment: .leading){
+                                                        
+                                ScrollView(.horizontal, showsIndicators: false){
+                                    LazyHStack{
+                                        StoryItemView()
+                                        StoryItemView()
+                                        StoryItemView()
+                                        StoryItemView()
+                                        StoryItemView()
+                                        StoryItemView()
+                                        StoryItemView()
+                                    }.padding(.vertical,5)
+                                }
+            
+                                Text("Matches")
+                                    .font(.title2)
+                                    .padding(.bottom,5)
+                                    .padding(.horizontal,5)
+                                
+                                LazyVGrid(columns: [
+                                    GridItem(.flexible()),
+                                    GridItem(.flexible())
+                                ]){
+                                    ForEach(users,id:\.self){ user in
+                                        NavigationLink(value: user){
+                                            UserProfileItemView(imageUrl: user)
+                                        }
+                                    }
+                                    
+                                }.navigationDestination(for: String.self){ user in
+                                    ProfileView(imageUrl: user)
+                                }.padding(.horizontal,5)
+                                
+                            
+                            }.foregroundStyle(.white)
+                            
                         }
-                        
+                    }
                     
-                    }.foregroundStyle(.white)
                     
                 }
                 
-                
             }
-            
-        }.background(Color(.darkText))
+            .background(Color(.darkText))
+        }
+        
     }
 }
 
@@ -81,37 +100,25 @@ struct HomeView: View {
     HomeView()
 }
 
-struct StoryItemView: View {
-    var body: some View {
-        VStack{
-            Image("1")
-                .resizable()
-                .scaledToFill()
-                .frame(width: 80,height: 80)
-                .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/).overlay{
-                    Circle().stroke(Color(.systemPink))
-                }
-            HStack{
-                Text("Ketsia").font(.headline)
-                Circle()
-                    .frame(width: 10,height: 10)
-            }
-        }.padding(.horizontal,5)
-    }
-}
 
-struct ExtractedView: View {
+struct UserProfileItemView: View {
+    let imageUrl: String
     var body: some View {
         VStack{
             ZStack{
                 
                 Rectangle()
                     .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .frame(minHeight: 250)
                     .overlay{
-                        Image("1")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                        GeometryReader{ geometry in
+                            Image(imageUrl)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: geometry.size.width)
+                                .frame(height: geometry.size.height)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                        }
                             
                     }
                    
@@ -123,15 +130,17 @@ struct ExtractedView: View {
                     HStack{
                         HStack{
                             Text("Rebecca")
-                                .font(.title)
+                                .font(.title3)
+                                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                             Text("22")
-                                .font(.title)
+                                .font(.title3)
+                                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                         }.padding()
                         Spacer()
                     }
                 }
                 
-            }.padding(5)
+            }
         }
     }
 }

@@ -6,3 +6,13 @@
 //
 
 import Foundation
+
+
+struct User : Codable{
+    var id: String
+    let name: String
+    let age: Int
+    let bio: String
+    let interests: [String]
+    let joined: TimeInterval
+}

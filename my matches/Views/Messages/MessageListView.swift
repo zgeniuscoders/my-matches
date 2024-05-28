@@ -26,10 +26,10 @@ struct MessageListView: View {
                         Text("All Messages")
                             .font(.title)
                             .foregroundStyle(.white)
-                            .padding()
+                            .padding(5)
                         
                         
-                        ScrollView{
+                        ScrollView(showsIndicators: false){
                             VStack{
                                 ForEach(1...10, id: \.self){ message in
                                     NavigationLink(value: message){
@@ -38,7 +38,7 @@ struct MessageListView: View {
                                 }
                             }
                         }.navigationDestination(for: Int.self){ message in
-                            Text("msg")
+                            MessageView()
                         }
                     }
                 }
@@ -54,47 +54,3 @@ struct MessageListView: View {
     MessageListView()
 }
 
-struct MessageUserItemView: View {
-    var body: some View {
-        VStack{
-            HStack{
-                Image("1")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 60,height: 60)
-                    .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/).overlay{
-                        Circle()
-                            .stroke(Color(.systemPink))
-                    }
-                
-                VStack(alignment: .leading){
-                    HStack{
-                        Text("Ketsia")
-                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                            .font(.headline)
-                            .foregroundStyle(.white)
-                            .padding(.horizontal)
-                            .padding(.vertical,5)
-                        
-                        Spacer()
-                        
-                        Text("20minutes")
-                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                            .font(.caption)
-                            .foregroundStyle(.white)
-                    }
-                    
-                    Text("Hey what's going on up how about tomorrow")
-                        .font(.subheadline)
-                        .multilineTextAlignment(.leading)
-                        .foregroundStyle(.white)
-                        .frame(width: .infinity)
-                        .padding(.horizontal)
-                }
-                
-                
-            }.padding(.horizontal)
-                .padding(.vertical,5)
-        }
-    }
-}

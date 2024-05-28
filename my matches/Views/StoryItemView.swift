@@ -9,7 +9,21 @@ import SwiftUI
 
 struct StoryItemView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack{
+            Image("1")
+                .resizable()
+                .scaledToFill()
+                .frame(width: 60,height: 60)
+                .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/).overlay{
+                    Circle().stroke(Color(.systemPink))
+                }
+            HStack{
+                Text("Ketsia")
+                    .font(.callout)
+                Circle()
+                    .frame(width: 10,height: 10)
+            }
+        }.padding(.horizontal,5)
     }
 }
 
